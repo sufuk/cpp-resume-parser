@@ -11,7 +11,7 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
     /** Constructor */
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
 
 
 

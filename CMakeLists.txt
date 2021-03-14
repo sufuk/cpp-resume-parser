@@ -8,13 +8,20 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
 file(GLOB SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 file(GLOB HEADER_FILES ${PROJECT_SOURCE_DIR}/src/*.h)
 file(GLOB RESOURCE_FILES ${PROJECT_SOURCE_DIR}/resources/*.qrc)
 
-set(Qt6_DIR $ENV{HOME}/Qt/6.0.2/gcc_64/lib/cmake/Qt6)
+set(CMAKE_PREFIX_PATH  $ENV{HOME}/Qt/6.0.2/gcc_64)
 find_package(Qt6 COMPONENTS Core Widgets Gui OpenGL REQUIRED)
+#set(LIBPODOFO_DIR /opt/PoDoFo)
+find_package(LIBPODOFO)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES} ${PODOFO_LIB})
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
+target_link_libraries(${PROJECT_NAME} /usr/lib/libpodofo.so Qt6::Core Qt6::Widgets)
 
-target_link_libraries(${PROJECT_NAME}  PRIVATE Qt6::Core Qt6::Widgets)
+SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS -lpodofo)
+#add_dependencies(${PROJECT_NAME} ${PODOFO_DEPEND_TARGET})
+INCLUDE_DIRECTORIES(${PoDoFo_SOURCE_DIR})
