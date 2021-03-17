@@ -6,7 +6,7 @@
 #define RESUMEPARSER_MAINWINDOW_H
 
 #include <QtWidgets>
-
+#include "PDFParser.h"
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:
@@ -14,7 +14,18 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
 
 
+    void loadFile(const QString &fileName);
+    QString filename;
+private slots:
 
+    void slot_savePDF();
+
+private:
+
+
+    void createMiddleWidget();
+    void createActions();
+    void createStatusBar();
 
 };
 

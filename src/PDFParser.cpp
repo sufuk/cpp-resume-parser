@@ -3,6 +3,11 @@
 //
 
 #include "PDFParser.h"
+#include "podofo/podofo.h"
+
+using namespace PoDoFo;
+using namespace std;
+#include <iostream>
 PDFParser::PDFParser() {
 
 }
@@ -11,31 +16,15 @@ PDFParser::PDFParser() {
 
 void PDFParser::loadFile(const QString& arg_filename) {
 
+    PdfVecObjects *x = new PdfVecObjects();
+    PdfParser parser(x, arg_filename.toStdString().c_str());
+    parser.ParseFile("hello.pdf");
 
-    PoDoFo::PdfMemDocument pdf("CVdecember.pdf");
-    for (int pageNumber = 0; pageNumber < pdf.GetPageCount(); ++pageNumber) {
-        PoDoFo::PdfPage *page = pdf.GetPage(pageNumber);
-        PoDoFo::PdfContentsTokenizer tok(page);
-        const char* token = nullptr;
-        PoDoFo::PdfVariant var;
-        PoDoFo::EPdfContentsType type;
-        while (tok.ReadNext(type, token, var)) {
-            switch (type) {
-                case PoDoFo::ePdfContentsType_Keyword:
-                    // process token: it contains the current command
-                    //   pop from var stack as necessary
-                    break;
-                case PoDoFo::ePdfContentsType_Variant:
-                    // process var: push it onto a stack
-                    break;
-                default:
-                    // should not happen!
-                    break;
-            }
-        }
+    for (TIVecObjects obj = x->begin(); obj != x->end(); obj++){
+        PdfObject * a = x->RemoveObject(obj);
+        // THIS IS MY PROBLEM VVVVVVVVVV
+        cout << a->Reference().ToString() << endl;
     }
-
-
 
 }
 
